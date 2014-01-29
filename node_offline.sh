@@ -13,7 +13,7 @@ if [ $# -eq 0 ] ; then
     exit 1
 fi
 
-for node in $@ ; do
+for node in "$@" ; do
     qmod -d all.q@$node
 done
 

@@ -13,7 +13,7 @@ if [ $# -eq 0 ] ; then
     exit 1
 fi
 
-for crate in $@ ; do
+for crate in "$@" ; do
     if [ $( echo $crate | grep "ac" ) ] ; then
         for node in 01 02 ; do
             qmod -e all.q@${crate}n${node}
