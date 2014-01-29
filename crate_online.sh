@@ -2,6 +2,8 @@
 
 . /etc/profile.d/modules.sh
 
+module load shared
+module load proteus
 module load sge/univa
 
 usage() {
