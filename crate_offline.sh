@@ -16,14 +16,16 @@ if [ $# -eq 0 ] ; then
 fi
 
 for crate in "$@" ; do
-    if [ $( echo $crate | grep "ac" ) ] ; then
-        for node in 01 02 ; do
-            qmod -d all.q@${crate}n${node}
-        done
-    elif [ $( echo $crate | grep "ic" ) ] ; then
-        for node in 01 02 03 04 ; do
-            qmod -d all.q@${crate}n${node}
-        done
-    fi
+    for queue in $( qconf -sql ) ; do
+        if [ $( echo $crate | grep "ac" ) ] ; then
+            for node in 01 02 ; do
+                qmod -d $queue@${crate}n${node}
+            done
+        elif [ $( echo $crate | grep "ic" ) ] ; then
+            for node in 01 02 03 04 ; do
+                qmod -d $queue@${crate}n${node}
+            done
+        fi
+    done
 done
 
