@@ -5,11 +5,11 @@
 package main
 
 import (
-	"github.com/dgruber/jsv"
+    "github.com/dgruber/jsv"
 )
 
 func jsv_on_start_function() {
-	//jsv_send_env()
+    //jsv_send_env()
 }
 
 func job_verification_function() {
@@ -38,14 +38,14 @@ func job_verification_function() {
     }
 
     if modified_p {
-	    jsv.JSV_correct("Job was modified")
+        jsv.JSV_correct("Job was modified")
     }
 
-	return
+    return
 }
 
 /* example JSV 'script' */
 func main() {
-	jsv.Run(true, job_verification_function, jsv_on_start_function)
+    jsv.Run(true, job_verification_function, jsv_on_start_function)
 }
 
