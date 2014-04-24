@@ -15,9 +15,6 @@ func jsv_on_start_function() {
 }
 
 func job_verification_function() {
-    // show qsub params
-    //jsv.JSV_show_params()
-
 
     //
     // Prevent jobs from accidental oversubscription
@@ -44,11 +41,6 @@ func job_verification_function() {
 
             jsv.JSV_set_param("binding_strategy", "striding_automatic")
             jsv.JSV_set_param("binding_type", "pe")
-
-            //jsv.JSV_log_info("FOOBAR")
-            //jsv.JSV_log_info(hostlist)
-            //jsv.JSV_log_info(v)
-            //jsv.JSV_log_info(strconv.Itoa(pe_max))
 
             if strings.EqualFold("@intelhosts", hostlist) {
                 if pe_max < intel_slots {
