@@ -13,7 +13,6 @@ func jsv_on_start_function() {
 }
 
 func job_verification_function() {
-
     //
     // Prevent jobs from accidental oversubscription
     //
@@ -28,17 +27,18 @@ func job_verification_function() {
         modified_p = true
     }
 
+    // show qsub params
+    //jsv.JSV_show_params()
+
     if modified_p {
         jsv.JSV_correct("Job was modified")
-
-        // show qsub params
-        jsv.JSV_show_params()
+    } else {
+        jsv.JSV_correct("Job was not modified")
     }
 
     return
 }
 
-/* example JSV 'script' */
 func main() {
     jsv.Run(true, job_verification_function, jsv_on_start_function)
 }
