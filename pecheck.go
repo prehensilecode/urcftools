@@ -48,11 +48,19 @@ func job_verification_function() {
                 } else {
                     jsv.JSV_set_param("binding_amount", strconv.Itoa(intel_slots))
                 }
+
+                if pe_max > 31 {
+                    jsv.JSV_set_param("R", "y")
+                }
             } else if strings.EqualFold("@amdhosts", hostlist) {
                 if pe_max < amd_slots {
                     jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
                 } else {
                     jsv.JSV_set_param("binding_amount", strconv.Itoa(amd_slots))
+
+                    if pe_max > 127 {
+                        jsv.JSV_set_param("R", "y")
+                    }
                 }
             }
 
@@ -62,10 +70,10 @@ func job_verification_function() {
     }
 
     if modified_p {
-        jsv.JSV_correct("Job was modified")
-
-        // show qsub params
         jsv.JSV_show_params()
+        jsv.JSV_correct("Job was modified")
+    } else {
+        jsv.JSV_correct("Job was not modified")
     }
 
     return
