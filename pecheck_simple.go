@@ -50,11 +50,9 @@ func job_verification_function() {
         }
     }
 
-    // show qsub params
-    //jsv.JSV_show_params()
 
     if modified_p {
-        jsv.JSV_show_params()
+        // jsv.JSV_show_params()
         jsv.JSV_correct("Job was modified")
     } else {
         jsv.JSV_correct("Job was not modified")
