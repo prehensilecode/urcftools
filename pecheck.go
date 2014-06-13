@@ -77,7 +77,7 @@ func job_verification_function() {
         }
     }
 
-    jsv.JSV_show_params()
+    //jsv.JSV_show_params()
     if modified_p {
         jsv.JSV_correct("Job was modified")
     } else {
