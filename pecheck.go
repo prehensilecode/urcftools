@@ -58,7 +58,7 @@ func job_verification_function() {
                     }
 
                     if pe_max > 31 {
-                    jsv.JSV_set_param("R", "y")
+                        jsv.JSV_set_param("R", "y")
                     }
                 } else if strings.EqualFold("@amdhosts", hostlist) {
                     if pe_max < amd_slots {
