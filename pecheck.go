@@ -20,6 +20,11 @@ func job_verification_function() {
     //
     // Prevent jobs from accidental oversubscription
     //
+
+    // NOTE
+    // The submit(1) man page has slightly different terminology:
+    // "binding_instance" in the man page is "binding_type" in 
+    //  the jsv library.
     const intel_slots, amd_slots = 16, 64
 
     var modified_p bool = false
