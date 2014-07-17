@@ -8,6 +8,7 @@ import (
     "github.com/dgruber/jsv"
     "strings"
     "strconv"
+    "regexp"
 )
 
 func jsv_on_start_function() {
@@ -39,18 +40,51 @@ func job_verification_function() {
             v, _ = jsv.JSV_get_param("pe_min")
             pe_min, _ = strconv.Atoi(v)
 
-            var hostlist string 
-            hostlist, _ = jsv.JSV_get_param("q_hard")
-            hostlist = strings.SplitAfterN(hostlist, "@", 2)[1]
+            singleat_re, _ := regexp.Compile("@[a-z]")
+            doubleat_re, _ := regexp.Compile("@@")
+            intelhost_re, _ := regexp.Compile("^ic[:digit:]{2}n[:digit:]{2}$")
+            amdhost_re, _ := regexp.Compile("^ac[:digit:]{2}n[:digit:]{2}$")
+            gpuhost_re, _ := regexp.Compile("^gpu[:digit:]{2}$")
+            q_hard, _ := jsv.JSV_get_param("q_hard")
+
+            var q string
+            var host string
+            var hostlist string
+
+            if singleat_re.MatchString(q_hard) {
+                // we have a single host
+                q = strings.Split(q_hard, "@")[0]
+                host = strings.Split(q_hard, "@")[1]
+            } else if doubleat_re.MatchString(q_hard) {
+                // we have a hostgroup
+                q = strings.Split(q_hard, "@")[0]
+                hostlist = strings.SplitAfterN(q_hard, "@", 2)[1]
+            } else {
+                // we have no host specifier
+                q = q_hard
+            }
+
+            vendor := "undef"
+            if strings.EqualFold("gpu.q", q) || strings.EqualFold("@intelhosts", hostlist) {
+                vendor = "intel"
+            } else if strings.EqualFold("@amdhosts", hostlist) {
+                vendor = "amd"
+            } else {
+                if intelhost_re.MatchString(host) || gpuhost_re.MatchString(host) {
+                    vendor = "intel"
+                } else if amdhost_re.MatchString(host) {
+                    vendor = "amd"
+                }
+            }
 
             // Only specify binding if pe_max == pe_min, i.e. if a fixed
             // number of slots is requested
 
-            if pe_max == pe_min {
+            if !strings.EqualFold("undef", vendor) && pe_max == pe_min {
                 jsv.JSV_set_param("binding_strategy", "striding_automatic")
-                jsv.JSV_set_param("binding_type", "pe")
+                jsv.JSV_set_param("binding_type", "set")
 
-                if strings.EqualFold("@intelhosts", hostlist) {
+                if strings.EqualFold("intel", vendor) {
                     if pe_max < intel_slots {
                         jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
                     } else {
@@ -60,7 +94,7 @@ func job_verification_function() {
                     if pe_max > 31 {
                         jsv.JSV_set_param("R", "y")
                     }
-                } else if strings.EqualFold("@amdhosts", hostlist) {
+                } else if strings.EqualFold("amd", vendor) {
                     if pe_max < amd_slots {
                         jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
                     } else {
@@ -77,7 +111,7 @@ func job_verification_function() {
         }
     }
 
-    //jsv.JSV_show_params()
+    jsv.JSV_show_params()
     if modified_p {
         jsv.JSV_correct("Job was modified")
     } else {
