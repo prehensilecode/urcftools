@@ -28,29 +28,32 @@ func job_verification_function() {
     const intel_slots, amd_slots = 16, 64
 
     var modified_p bool = false
+
     if !jsv.JSV_is_param("pe_name") {
+        // no PE => serial job
         jsv.JSV_set_param("binding_strategy", "linear_automatic")
         jsv.JSV_set_param("binding_type", "set")
         jsv.JSV_set_param("binding_amount", "1")
         jsv.JSV_set_param("binding_exp_n", "0")
         modified_p = true
     } else {
+        // parallel job
         if !jsv.JSV_is_param("binding_strategy") {
-            var pe_max int
-            var pe_min int
             var v string
             v, _ = jsv.JSV_get_param("pe_max")
-            pe_max, _ = strconv.Atoi(v)
+            pe_max, _ := strconv.Atoi(v)
 
             v, _ = jsv.JSV_get_param("pe_min")
-            pe_min, _ = strconv.Atoi(v)
+            pe_min, _ := strconv.Atoi(v)
+
+            l_hard, _ := jsv.JSV_get_param("l_hard")
+            q_hard, _ := jsv.JSV_get_param("q_hard")
 
             singleat_re, _ := regexp.Compile("@[a-z]")
             doubleat_re, _ := regexp.Compile("@@")
             intelhost_re, _ := regexp.Compile("^ic[:digit:]{2}n[:digit:]{2}$")
             amdhost_re, _ := regexp.Compile("^ac[:digit:]{2}n[:digit:]{2}$")
             gpuhost_re, _ := regexp.Compile("^gpu[:digit:]{2}$")
-            q_hard, _ := jsv.JSV_get_param("q_hard")
 
             var q string
             var host string
@@ -69,16 +72,26 @@ func job_verification_function() {
                 q = q_hard
             }
 
-            vendor := "undef"
-            if strings.EqualFold("gpu.q", q) || strings.EqualFold("@intelhosts", hostlist) {
-                vendor = "intel"
-            } else if strings.EqualFold("@amdhosts", hostlist) {
-                vendor = "amd"
-            } else {
-                if intelhost_re.MatchString(host) || gpuhost_re.MatchString(host) {
+            cplx := make(map[string]string)
+            l_hard_split := strings.Split(l_hard, ",")
+            for _, v := range l_hard_split {
+                cplx[strings.Split(v, "=")[0]] = strings.Split(v, "=")[1]
+            }
+
+            vendor, ok := cplx["vendor"]
+
+            if !ok {
+                // vendor was not requested by job
+                if strings.EqualFold("gpu.q", q) || strings.EqualFold("@intelhosts", hostlist) {
                     vendor = "intel"
-                } else if amdhost_re.MatchString(host) {
+                } else if strings.EqualFold("@amdhosts", hostlist) {
                     vendor = "amd"
+                } else {
+                    if intelhost_re.MatchString(host) || gpuhost_re.MatchString(host) {
+                        vendor = "intel"
+                    } else if amdhost_re.MatchString(host) {
+                        vendor = "amd"
+                    }
                 }
             }
 
@@ -116,7 +129,7 @@ func job_verification_function() {
         }
     }
 
-    //jsv.JSV_show_params()
+    jsv.JSV_show_params()
     if modified_p {
         jsv.JSV_correct("Job was modified")
     } else {
