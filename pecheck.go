@@ -86,14 +86,25 @@ func job_verification_function() {
                     vendor = "intel"
                 } else if strings.EqualFold("@amdhosts", hostlist) {
                     vendor = "amd"
-                } else {
+                } else if len(host) != 0 {
+                    // specific hosts requested
                     if intelhost_re.MatchString(host) || gpuhost_re.MatchString(host) {
                         vendor = "intel"
                     } else if amdhost_re.MatchString(host) {
                         vendor = "amd"
                     }
+                } else {
+                    _, ok = cplx["ngpus"]
+                    if !ok {
+                        _, ok = cplx["gpu"]
+                    }
+                    
+                    if ok {
+                        vendor = "intel"
+                    }
                 }
             }
+
 
             // Only specify binding if pe_max == pe_min, i.e. if a fixed
             // number of slots is requested
