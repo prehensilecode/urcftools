@@ -98,7 +98,7 @@ func job_verification_function() {
             // Only specify binding if pe_max == pe_min, i.e. if a fixed
             // number of slots is requested
 
-            if !strings.EqualFold("undef", vendor) && pe_max == pe_min {
+            if pe_max == pe_min {
                 jsv.JSV_set_param("binding_strategy", "striding_automatic")
                 jsv.JSV_set_param("binding_type", "set")
 
@@ -129,7 +129,7 @@ func job_verification_function() {
         }
     }
 
-    jsv.JSV_show_params()
+    //jsv.JSV_show_params()
     if modified_p {
         jsv.JSV_correct("Job was modified")
     } else {
