@@ -1,6 +1,5 @@
 #!/bin/bash
-### Set the Mellanox InfiniBand interface MaxReadRequest parameter 
-### to a vendor-recommended setting.
+### Display the Mellanox InfiniBand interface MaxReadRequest parameter 
 PATH=/bin:/usr/bin:/sbin:/usr/sbin
 
 # Mellanox vendor ID is 15b3
