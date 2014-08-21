@@ -29,10 +29,12 @@ func job_verification_function() {
 
     var modified_p bool = false
 
+    group, _ := jsv.JSV_get_param("GROUP")
+
     if !jsv.JSV_is_param("pe_name") {
         // no PE => serial job
         jsv.JSV_set_param("binding_strategy", "linear_automatic")
-        jsv.JSV_set_param("binding_type", "set")
+        jsv.JSV_set_param("binding_type", "pe")
         jsv.JSV_set_param("binding_amount", "1")
         jsv.JSV_set_param("binding_exp_n", "0")
         modified_p = true
@@ -50,10 +52,9 @@ func job_verification_function() {
             pe_min, _ := strconv.Atoi(v)
 
             if strings.EqualFold("shm", pe_name) && (pe_max == pe_min) {
-                jsv.JSV_set_param("binding_strategy", "striding_automatic")
-                jsv.JSV_set_param("binding_type", "set")
+                jsv.JSV_set_param("binding_strategy", "linear_automatic")
+                jsv.JSV_set_param("binding_type", "pe")
                 jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
-                jsv.JSV_set_param("binding_step", "1")
                 modified_p = true
             } else {
 
@@ -123,31 +124,34 @@ func job_verification_function() {
                 // number of slots is requested
 
                 if !strings.EqualFold("undef", vendor) && pe_max == pe_min {
-                    jsv.JSV_set_param("binding_strategy", "striding_automatic")
-                    jsv.JSV_set_param("binding_type", "set")
+                    jsv.JSV_set_param("binding_strategy", "linear_automatic")
+                    jsv.JSV_set_param("binding_type", "pe")
 
-                    if strings.EqualFold("intel", vendor) {
-                        if pe_max < intel_slots {
-                            jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
-                        } else {
-                            jsv.JSV_set_param("binding_amount", strconv.Itoa(intel_slots))
-                        }
+                    // Don't do reservation for high-throughput groups
+                    if !strings.EqualFold("rosenGrp", group) {
+                        if strings.EqualFold("intel", vendor) {
+                            if pe_max < intel_slots {
+                                jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
+                            } else {
+                                jsv.JSV_set_param("binding_amount", strconv.Itoa(intel_slots))
+                            }
 
-                        if pe_max > 31 {
-                            jsv.JSV_set_param("R", "y")
-                        }
-                    } else if strings.EqualFold("amd", vendor) {
-                        if pe_max < amd_slots {
-                            jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
-                        } else {
-                            jsv.JSV_set_param("binding_amount", strconv.Itoa(amd_slots))
-
-                            if pe_max > 127 {
+                            if pe_max > 31 {
                                 jsv.JSV_set_param("R", "y")
+                            }
+                        } else if strings.EqualFold("amd", vendor) {
+                            if pe_max < amd_slots {
+                                jsv.JSV_set_param("binding_amount", strconv.Itoa(pe_max))
+                            } else {
+                                jsv.JSV_set_param("binding_amount", strconv.Itoa(amd_slots))
+
+                                if pe_max > 127 {
+                                    jsv.JSV_set_param("R", "y")
+                            }
                             }
                         }
                     }
-                    jsv.JSV_set_param("binding_step", "1")
+
                     modified_p = true
                 }
             }
