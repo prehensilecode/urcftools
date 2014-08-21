@@ -158,7 +158,9 @@ func job_verification_function() {
         }
     }
 
+    // XXX print out debugging info - comment out for production
     jsv.JSV_show_params()
+
     if modified_p {
         jsv.JSV_correct("Job was modified")
     } else {
