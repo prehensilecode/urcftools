@@ -34,8 +34,8 @@ func job_verification_function() {
     if !jsv.JSV_is_param("pe_name") {
         // no PE => serial job
         jsv.JSV_set_param("binding_strategy", "linear_automatic")
-        jsv.JSV_set_param("binding_type", "pe")
         jsv.JSV_set_param("binding_amount", "1")
+        jsv.JSV_set_param("binding_type", "set")
         jsv.JSV_set_param("binding_exp_n", "0")
         modified_p = true
     } else {
