@@ -9,8 +9,8 @@ machinefile = os.environ['PE_HOSTFILE']
 abaqenvfile = "abaqus_v6.env"
 
 machinelines = []
-with open(machinefile, "ro") as machinefile:
-    for l in machinefile:
+with open(machinefile, "ro") as mf:
+    for l in mf:
         lsplit = l.split()
         machinelines.append( [lsplit[0], int(lsplit[1])] )
 
