@@ -40,7 +40,7 @@ func job_verification_function() {
                 jsv.JSV_set_param("R", "y")
                 modified_p = true
             }
-        } 
+        }
 
         if strings.EqualFold("@intelhosts", hostlist) {
             if pe_max > 31 {

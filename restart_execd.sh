@@ -16,6 +16,8 @@ if [ $# -eq 0 ] ; then
 fi
 
 for node in "$@" ; do
+    node_offline.sh $node
     ssh $node 'service sgeexecd softstop && service sgeexecd start'
+    node_online.sh $node
 done
 
