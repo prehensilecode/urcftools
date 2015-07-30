@@ -2,7 +2,7 @@ pe_name                sparkamd
 slots                  99999
 user_lists             NONE
 xuser_lists            NONE
-start_proc_args        /cm/shared/apps/sge/var/default/common/pescripts/spark.sh
+start_proc_args        /cm/shared/apps/sge/var/default/common/pescripts/sparkstart.sh
 stop_proc_args         NONE
 allocation_rule        64
 control_slaves         TRUE
