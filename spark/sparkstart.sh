@@ -5,6 +5,7 @@ spark_conf_dir=${SGE_O_WORKDIR}/conf.${JOB_ID}
 sparkenvfile=${spark_conf_dir}/spark-env.sh
 
 echo "#!/usr/bin/env bash" > $sparkenvfile
+echo "export SPARK_CONF_DIR=${spark_conf_dir}" >> $sparkenvfile
 echo "export SPARK_MASTER_WEBUI_PORT=8880" >> $sparkenvfile
 echo "export SPARK_WORKER_WEBUI_PORT=8881" >> $sparkenvfile
 echo "export SPARK_WORKER_INSTANCES=1" >> $sparkenvfile
@@ -24,7 +25,7 @@ echo "export SPARK_WORKER_CORES=${spark_worker_cores}" >> $sparkenvfile
 spark_worker_dir=/lustre/scratch/${SGE_O_LOGNAME}/spark/work.${JOB_ID}
 echo "export SPARK_WORKER_DIR=${spark_worker_dir}" >> $sparkenvfile
 
-spark_log_dir=${SGE_O_WORKDIR}/log.${JOB_ID}
+spark_log_dir=${SGE_O_WORKDIR}/logs.${JOB_ID}
 echo "export SPARK_LOG_DIR=${spark_log_dir}" >> $sparkenvfile
 
 chmod +x $sparkenvfile
