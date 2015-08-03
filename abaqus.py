@@ -16,5 +16,6 @@ with open(machinefile, "ro") as mf:
 
 with open(abaqenvfile, "wo") as envfile:
     envfile.write("mp_mode=MPI\n")
+    envfile.write("mp_rsh_command='/cm/shared/apps/sge/univa/mpi/rsh -n -l %U %H %C'\n")
     envfile.write("mp_host_list=%s\n" % (str(machinelines)))
 
