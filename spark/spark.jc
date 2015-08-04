@@ -38,7 +38,7 @@ now             {+}UNSPECIFIED
 o               {+}UNSPECIFIED
 P               {+}UNSPECIFIED
 p               {+}UNSPECIFIED
-pe_name         {~}sparkintel,[intel=sparkintel],[amd=sparkamd]
+pe_name         {~}spark.intel,[intel=spark.intel],[amd=spark.amd]
 pe_range        {+}UNSPECIFIED
 q_hard          {+}UNSPECIFIED
 q_soft          {+}UNSPECIFIED

@@ -1,13 +1,13 @@
-pe_name                sparkintel
+pe_name                spark.intel
 slots                  99999
 user_lists             NONE
 xuser_lists            NONE
 start_proc_args        /cm/shared/apps/sge/var/default/common/pescripts/sparkstart.sh
 stop_proc_args         NONE
 allocation_rule        16
-control_slaves         TRUE
-job_is_first_task      TRUE
+control_slaves         FALSE
+job_is_first_task      FALSE
 urgency_slots          min
-accounting_summary     TRUE
+accounting_summary     FALSE
 daemon_forks_slaves    FALSE
 master_forks_slaves    FALSE
