@@ -69,7 +69,26 @@ echo "setenv SPARK_LOCAL_DIRS ${TMP}" >> $sparkenvfile
 
 chmod +x $sparkenvfile
 
+
 /bin/mkdir -p ${spark_log_dir}
 /bin/mkdir -p ${spark_worker_dir}
 cat ${PE_HOSTFILE} | cut -f1 -d \  > ${spark_slaves}
+
+### defaults, sp. log directory
+echo "spark.eventLog.dir    ${spark_log_dir}" > ${spark_conf_dir}/spark-defaults.conf
+
+### log4j defaults
+log4j_props=${spark_conf_dir}/log4j.properties
+echo "### Suggestion: use "WARN" or "ERROR"; use "INFO" when debugging" > $log4j_props
+echo "# Set everything to be logged to the console" >> $log4j_props
+echo "log4j.rootCategory=WARN, console" >> $log4j_props
+echo "log4j.appender.console=org.apache.log4j.ConsoleAppender" >> $log4j_props
+echo "log4j.appender.console.target=System.err" >> $log4j_props
+echo "log4j.appender.console.layout=org.apache.log4j.PatternLayout" >> $log4j_props
+echo "log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n" >> $log4j_props
+echo "# Settings to quiet third party logs that are too verbose" >> $log4j_props
+echo "log4j.logger.org.spark-project.jetty=WARN" >> $log4j_props
+echo "log4j.logger.org.spark-project.jetty.util.component.AbstractLifeCycle=ERROR" >> $log4j_props
+echo "log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO" >> $log4j_props
+echo "log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO" >> $log4j_props
 
