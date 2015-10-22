@@ -16,16 +16,24 @@ if [ $# -eq 0 ] ; then
 fi
 
 for crate in "$@" ; do
-    for queue in $( qconf -sql ) ; do
-        if [ $( echo $crate | grep "ac" ) ] ; then
-            for node in 01 02 ; do
-                qmod -d $queue@${crate}n${node}
-            done
-        elif [ $( echo $crate | grep "ic" ) ] ; then
-            for node in 01 02 03 04 ; do
-                qmod -d $queue@${crate}n${node}
-            done
-        fi
-    done
+    if [ $( echo $crate | grep "ac" ) ] ; then
+        for node in 01 02 ; do
+            qmod -d all.q@${crate}n${node}
+            qmod -d debug.q@${crate}n${node}
+            qmod -d adm.q@${crate}n${node}
+            qmod -d gpu.q@${crate}n${node}
+        done
+    elif [ $( echo $crate | grep "ic" ) ] ; then
+        for node in 01 02 03 04 ; do
+            qmod -d all.q@${crate}n${node}
+            qmod -d debug.q@${crate}n${node}
+            qmod -d adm.q@${crate}n${node}
+            qmod -d gpu.q@${crate}n${node}
+        done
+    elif [ $( echo $crate | grep "gpu" ) ] ; then
+        for node in 01 02 03 04 05 06 07 08 ; do
+            qmod -d gpu.q@${crate}${node}
+        done
+    fi
 done
 

@@ -25,6 +25,10 @@ for crate in "$@" ; do
             for node in 01 02 03 04 ; do
                 qmod -e $queue@${crate}n${node}
             done
+        elif [ $( echo $crate | grep "gpu" ) ] ; then
+            for node in 01 02 03 04 05 06 07 08 ; do
+                qmod -e $queue@${crate}${node}
+            done
         fi
     done
 done
