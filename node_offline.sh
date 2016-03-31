@@ -15,8 +15,8 @@ if [ $# -eq 0 ] ; then
     exit 1
 fi
 
-for queue in $( qconf -sql ) ; do
-    for node in "$@" ; do
+for node in "$@" ; do
+    for queue in $( qconf -sql ) ; do
         qmod -d $queue@$node
     done
 done
