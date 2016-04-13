@@ -10,7 +10,7 @@ WWWHOME=/var/www/html
 STATUSFILE=${WWWHOME}/lmstat.txt
 STATUSFILEHTML=${WWWHOME}/lmstat.html
 
-lmutil lmstat -a | grep -v "License\ file" | sed -e 's/27495/./g' | sed -e 's/28518/./g' | sed -e 's/1711/./g' > ${STATUSFILE}
+lmutil lmstat -a | grep -v "License\ file" | sed -e 's/27495/./g' | sed -e 's/28518/./g' | sed -e 's/1711/./g' | sed -e 's/\.irt\.drexel\.edu//g' > ${STATUSFILE}
 
 chmod 644 ${STATUSFILE}
 
