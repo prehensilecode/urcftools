@@ -7,7 +7,7 @@ export LM_LICENSE_FILE=28518@proteusmaster.cm.cluster:27495@license01.coe.drexel
 
 
 WWWHOME=/var/www/html
-STATUSFILE=${WWWHOME}/lmstat.txt
+STATUSFILE=/tmp/lmstat.txt
 STATUSFILEHTML=${WWWHOME}/lmstat.html
 
 lmutil lmstat -a | grep -v "License\ file" | sed -e 's/27495/./g' | sed -e 's/28518/./g' | sed -e 's/1711/./g' | sed -e 's/\.irt\.drexel\.edu//g' > ${STATUSFILE}
