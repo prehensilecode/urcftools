@@ -30,4 +30,5 @@ echo "</pre>" >> ${STATUSFILEHTML}
 echo "</html>" >> ${STATUSFILEHTML}
 
 chmod 644 ${STATUSFILEHTML}
+rm -f ${STATUSFILE}
 
