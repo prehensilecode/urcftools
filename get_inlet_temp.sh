@@ -2,13 +2,22 @@
 IPMITOOL=/usr/bin/ipmitool
 INLETTEMPLOG=/var/log/inlet_temp
 
-if [ $(echo ${HOSTNAME} | grep "^ac") ]
+re='^[0-9]+$'
+
+if [[ $(echo ${HOSTNAME} | grep "^ac") ]]
 then
-    ${IPMITOOL} -c sdr get "FCB Ambient1" | cut -f2 -d, > $INLETTEMPLOG
+    temp=$( ${IPMITOOL} -c sdr get "FCB Ambient1" | cut -f2 -d, ) 
 elif [ ${HOSTNAME} = "proteusa01" ]
 then
-    ${IPMITOOL} -c sdr get "Ambient Temp" | cut -f2 -d, > $INLETTEMPLOG
+    temp=$( ${IPMITOOL} -c sdr get "Ambient Temp" | cut -f2 -d, )
 else
-    ${IPMITOOL} -c sdr get "Inlet Temp" | cut -f2 -d, > $INLETTEMPLOG
+    temp=$( ${IPMITOOL} -c sdr get "Inlet Temp" | cut -f2 -d, )
 fi
+
+if [[ $temp =~ $re ]]
+then
+    echo $temp > ${INLETTEMPLOG}
+fi
+
+exit 0
 
