@@ -2,8 +2,7 @@
 IPMITOOL=/usr/bin/ipmitool
 INLETTEMPLOG=/var/log/inlet_temp
 
-re='^[0-9]+$'
-
+export temp=""
 if [[ $(echo ${HOSTNAME} | grep "^ac") ]]
 then
     temp=$( ${IPMITOOL} -c sdr get "FCB Ambient1" | cut -f2 -d, ) 
@@ -14,7 +13,7 @@ else
     temp=$( ${IPMITOOL} -c sdr get "Inlet Temp" | cut -f2 -d, )
 fi
 
-if [[ $temp =~ $re ]]
+if [[ $temp =~ ^[0-9]+$ ]]
 then
     echo $temp > ${INLETTEMPLOG}
 fi
