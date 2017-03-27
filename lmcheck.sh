@@ -10,7 +10,17 @@ WWWHOME=/var/www/html
 STATUSFILE=/tmp/lmstat.txt
 STATUSFILEHTML=${WWWHOME}/lmstat.html
 
-lmutil lmstat -a | grep -v "License\ file" | sed -e 's/27495/./g' | sed -e 's/28518/./g' | sed -e 's/1711/./g' | sed -e 's/\.irt\.drexel\.edu//g' > ${STATUSFILE}
+lmutil lmstat -a | grep -v "License\ file" \
+    | sed -e 's/27495/./g' \
+    | sed -e 's/28518/./g' \
+    | sed -e 's/1711/./g' \
+    | sed -e 's/27008/./g' \
+    | sed -e 's/proteusmaster/++++/g' \
+    | sed -e 's/[Ll]icense0[0-9]/++++/g' \
+    | sed -e 's/goose/++++/g' \
+    | sed -e 's/killdeer/++++/g' \
+    | sed -e 's/panacea/++++/g' \
+    | sed -e 's/\..*\.drexel\.edu/..../g' > ${STATUSFILE}
 
 chmod 644 ${STATUSFILE}
 
