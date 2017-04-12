@@ -2,7 +2,7 @@
 #export FLEXLMDIR=/opt/flexlm
 export FLEXLMDIR=/cm/shared/apps/flexlm/11.13
 export PATH=${FLEXLMDIR}/bin:/mnt/HA/sysadmin/bin:${PATH}
-export LM_LICENSE_FILE=28518@proteusmaster.cm.cluster:27495@license01.coe.drexel.edu:27495@license02.coe.drexel.edu:27495@license03.coe.drexel.edu:1711@oystercatcher.irt.drexel.edu:1711@goose.irt.drexel.edu:1711@killdeer.irt.drexel.edu:27008@panacea.chemeng.drexel.edu
+export LM_LICENSE_FILE=28518@proteusmaster.cm.cluster:27495@license01.coe.drexel.edu:27495@license02.coe.drexel.edu:27495@license03.coe.drexel.edu:27008@panacea.chemeng.drexel.edu
 
 
 
