@@ -35,7 +35,7 @@ for crate in "$@" ; do
                     qmod -d ${queue}@ac${chassis}n${node}
                 done
             done
-            for chassis in $( seq -w 21 ) ; do
+            for chassis in $( seq -w 22 ) ; do
                 for node in 01 02 03 04 ; do
                     qmod -d ${queue}@ic${chassis}n${node}
                 done
