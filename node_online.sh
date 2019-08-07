@@ -10,14 +10,17 @@ usage() {
     echo "USAGE: $0 NODENAME [NODENAME NODENAME ... ]"
 }
 
-if [ $# -eq 0 ] ; then
+if [ $# -eq 0 ]
+then
     usage
     exit 1
 fi
 
-for queue in $( qconf -sql ) ; do
-    for node in "$@" ; do
-        qmod -e $queue@$node
+for node in "$@"
+do
+    for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$node | awk '{print $1}' )
+    do
+        qmod -e $qc
     done
 done
 
