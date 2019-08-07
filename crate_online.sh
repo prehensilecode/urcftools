@@ -17,7 +17,7 @@ fi
 
 for crate in "$@"
 do
-    for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep $crate | awk '{print $1}' )
+    for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$crate | awk '{print $1}' )
     do
         qmod -e $qc
     done
