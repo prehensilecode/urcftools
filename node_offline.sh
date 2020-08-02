@@ -39,15 +39,12 @@ then
             crate_offline.sh gpu0${i}
         done
     else
-        echo "Only 'intel', 'amd', and 'gpu' are recognized"
-        exit 1
-    fi
-else
-    for node in $inarr
-    do
-        for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$node | awk '{print $1}' )
+        for node in $inarr
         do
-            qmod -d $qc
+            for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$node | awk '{print $1}' )
+            do
+                qmod -d $qc
+            done
         done
-    done
+    fi
 fi
