@@ -39,12 +39,16 @@ then
             crate_online.sh gpu0${i}
         done
     else
-        for node in $inarr
-        do
-            for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$node | awk '{print $1}' )
-            do
-                qmod -e $qc
-            done
-        done
+        usage
+        exit 1
     fi
+else
+    for node in $inarr
+    do
+        for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$node | awk '{print $1}' )
+        do
+            echo "FOO qc = $qc "
+            qmod -e $qc
+        done
+    done
 fi
