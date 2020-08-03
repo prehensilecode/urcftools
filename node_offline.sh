@@ -39,8 +39,8 @@ then
             crate_offline.sh gpu0${i}
         done
     else
-        usage
-        exit 1
+        qc=$( qstat -f | grep -v ^- | grep -v ^queuename | grep ${inarr[0]} | awk '{print $1}' )
+        qmod -d $qc
     fi
 else
     for node in $inarr
