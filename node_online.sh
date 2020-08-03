@@ -43,7 +43,7 @@ then
         do
             for qc in $( qstat -f | grep -v ^- | grep -v ^queuename | grep @$node | awk '{print $1}' )
             do
-                qmod -d $qc
+                qmod -e $qc
             done
         done
     fi
